@@ -1,0 +1,121 @@
+UT3 · Ejemplo 1 · Punto de préstamo del aula
+
+El aula publica una ficha con los equipos que se pueden pedir y el máximo
+que puede llevarse una persona. Vas a actualizar el inventario y las normas
+en dos ramas. Después consultarás la ficha original y corregirás dos errores
+distintos, uno pendiente de confirmar y otro que ya quedó en un commit.
+
+1. Guarda la versión de partida
+
+Copia solo prestamos.py a una carpeta nueva fuera de cualquier repositorio.
+Abre esa carpeta en VS Code y ejecuta los comandos desde su terminal.
+
+    python prestamos.py
+    git init -b main
+    git add -- prestamos.py
+    git commit -m "Crea la ficha de préstamos del aula"
+    git log --oneline
+
+La ficha inicial muestra tres equipos y un máximo de 2 por persona. Copia
+el identificador corto del commit inicial. Lo usarás para consultar la ficha
+original. Si Git pide una identidad al confirmar, pon tus datos entre comillas
+en estas órdenes y vuelve a ejecutar el commit.
+
+    git config --local user.name "Tu nombre"
+    git config --local user.email "Tu correo"
+
+2. Separa los cambios en dos ramas
+
+Crea las dos ramas desde el mismo commit. Quédate en inventario para empezar.
+
+    git branch normas
+    git switch -c inventario
+
+Añade «Cable HDMI» como cuarto elemento de la lista equipos. Guarda y
+ejecuta el programa para comprobar que aparece. Revisa el cambio y confírmalo.
+
+    git diff -- prestamos.py
+    git add -- prestamos.py
+    git commit -m "Añade el cable HDMI al inventario"
+
+En la línea siguiente al mensaje «Equipos disponibles», añade esta línea.
+len(equipos) cuenta los elementos de la lista.
+
+    print("Total de equipos:", len(equipos))
+
+Ejecuta el programa, comprueba que el total es 4 y confirma este cambio
+en un segundo commit con el mensaje «Muestra el total de equipos».
+
+    git switch normas
+    python prestamos.py
+
+En normas volverás a ver los tres equipos iniciales. Cambia el máximo de
+2 a 3 en limite_por_persona. Pruébalo y confírmalo. A continuación, añade
+al final el mensaje «Devuelve el material al terminar la clase.». Usa print,
+ejecuta el programa y guarda este segundo cambio en otro commit. Comprueba
+que la ficha de esta rama muestra las dos novedades de las normas.
+
+3. Integra las dos ramas
+
+    git switch main
+    git merge --ff-only inventario
+    git merge --no-edit normas
+    git log --oneline --graph --all
+    python prestamos.py
+
+El primer merge mueve main hasta el último commit de inventario. La segunda
+integración crea un commit que reúne las dos ramas. En la ficha resultante
+deben aparecer el cable HDMI, el total de 4, el máximo de 3 y el aviso de
+devolución. Si el historial abre un visor, vuelve a la terminal con q.
+
+4. Consulta una versión anterior
+
+Comprueba con git status que no tienes cambios pendientes. Sustituye
+ID_INICIAL por el identificador que apuntaste en el primer apartado.
+
+    git switch --detach ID_INICIAL
+    python prestamos.py
+    git switch main
+    python prestamos.py
+
+En el commit inicial aparecen tres equipos y un máximo de 2. Al regresar
+a main reaparecen las dos mejoras. Durante la consulta has situado HEAD en
+un commit concreto y main ha conservado su posición.
+
+5. Retira una edición pendiente
+
+Simula una errata. Cambia el máximo de 3 a 30, guarda y prepara el archivo
+con git add -- prestamos.py. La errata debe aparecer en git diff --staged.
+
+    git restore --staged -- prestamos.py
+    git diff -- prestamos.py
+
+El cambio ya no está preparado para el commit. En el archivo sigue el 30.
+Como la edición solo contiene la errata de prueba, descártala del archivo.
+
+    git restore -- prestamos.py
+    python prestamos.py
+    git status --short
+
+La ficha vuelve a mostrar 3. El estado queda limpio y el historial conserva
+los mismos commits.
+
+6. Revierte una errata que ya está en el historial
+
+Simula ahora que el error llegó a confirmarse. Cambia de nuevo el máximo a
+30, guarda y crea un commit. Ejecuta el programa y comprueba que muestra 30.
+
+    git add -- prestamos.py
+    git commit -m "Cambia el máximo de préstamo a 30"
+    python prestamos.py
+
+Revierte ese último commit. Git crea otro commit que deshace su efecto.
+
+    git revert --no-edit HEAD
+    git log --oneline -2
+    python prestamos.py
+    git status --short
+
+En el historial quedan el commit de la errata y el de la corrección. La
+ficha vuelve a mostrar el máximo de 3 y conserva el inventario actualizado
+y el aviso de devolución. El estado final debe quedar limpio.
