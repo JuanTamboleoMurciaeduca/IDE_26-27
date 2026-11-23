@@ -1,17 +1,6 @@
-# Cartel del punto de intercambio
-titulo = "Intercambio de libros"
-lugar = "Por confirmar"
+libros_por_turno = [4, 11, 8, 11]
+umbral_refuerzo = 8
 
-# Horario
-horario = [
-    "Por confirmar",
-]
-
-# Normas
-limite_libros = 1
-
-print(titulo)
-print("Lugar:", lugar)
-print("Horario:", horario)
-print("Maximo de libros:", limite_libros)
-
+print("Punto de intercambio de libros")
+print("Libros por turno:", libros_por_turno)
+print("Umbral de refuerzo:", umbral_refuerzo)
