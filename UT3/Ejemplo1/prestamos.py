@@ -1,16 +1,6 @@
-print("Punto de préstamo del aula")
-print()
+prestamos_por_dia = [8, 12, 5, 12, 0]
+limite_aviso = 8
 
-# Inventario del aula
-equipos = [
-    "Ratón USB",
-    "Auriculares",
-    "Adaptador USB-C",
-]
-print("Equipos disponibles:", equipos)
-
-print()
-
-# Normas de préstamo
-limite_por_persona = 2
-print("Máximo por persona:", limite_por_persona)
+print("Préstamos de material del aula")
+print("Préstamos por día:", prestamos_por_dia)
+print("Límite de aviso:", limite_aviso)
