@@ -8,3 +8,6 @@ media = total_libros / numero_turnos
 
 print("Turnos registrados:", numero_turnos)
 print("Media de libros por turno:", media)
+
+variacion = libros_por_turno[-1] - libros_por_turno[0]
+print("Diferencia entre turnos:", variacion)
